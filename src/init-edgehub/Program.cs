@@ -27,15 +27,6 @@ internal class Program
         }
     }
 
-    private static void PrintUsage()
-    {
-        Console.WriteLine("init-edgehub tool");
-        Console.WriteLine(" requires hostname, edgeId and sasKey parameters");
-        Console.WriteLine(" eg. init-edgehub --hostname=myhub.azure-devices.net --edgeId=edge01 --sasKey=<edgeDeviceSharedAccesssKey");
-        Console.WriteLine();
-
-    }
-
     private static async Task InitModule(string hostname, string edgeId, string sasKey, string moduleId)
     {
         const string Api_Version_2021_04_12 = "api-version=2021-04-12";
@@ -68,5 +59,13 @@ internal class Program
             string putRespJson = await respPut.Content.ReadAsStringAsync();
             await Console.Out.WriteLineAsync(putRespJson);
         }
+    }
+
+    private static void PrintUsage()
+    {
+        Console.WriteLine("init-edgehub tool");
+        Console.WriteLine(" requires hostname, edgeId and sasKey parameters");
+        Console.WriteLine(" eg. init-edgehub --hostname=myhub.azure-devices.net --edgeId=edge01 --sasKey=<edgeDeviceSharedAccesssKey");
+        Console.WriteLine();
     }
 }
