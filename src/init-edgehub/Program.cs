@@ -15,9 +15,9 @@ internal class Program
         string hostname = configuration.GetValue<string>("hostname")!;
         string edgeId = configuration.GetValue<string>("edgeId")!;
         string sasKey = configuration.GetValue<string>("sasKey")!;
-        string modId = "$edgeHub";
+        string modId = configuration.GetValue<string>("modId")!;
 
-        if (string.IsNullOrEmpty(hostname) || string.IsNullOrEmpty(edgeId) || string.IsNullOrEmpty(sasKey))
+        if (string.IsNullOrEmpty(hostname) || string.IsNullOrEmpty(edgeId) || string.IsNullOrEmpty(sasKey) || string.IsNullOrEmpty(modId))
         {
             PrintUsage();
         }
@@ -35,7 +35,10 @@ internal class Program
         using HttpClient putClient = new();
         HttpRequestMessage reqPut = new(HttpMethod.Put, putUrl);
         reqPut.Headers.Add(HttpRequestHeader.Authorization.ToString(), Sas.GetToken(hostname, sasKey));
-        reqPut.Headers.IfMatch.Add(new System.Net.Http.Headers.EntityTagHeaderValue("\"*\""));
+        if (moduleId == "$edgeHub")
+        {
+            reqPut.Headers.IfMatch.Add(new System.Net.Http.Headers.EntityTagHeaderValue("\"*\""));
+        }
 
         Module modIdentity = new()
         {
@@ -64,8 +67,8 @@ internal class Program
     private static void PrintUsage()
     {
         Console.WriteLine("init-edgehub tool");
-        Console.WriteLine(" requires hostname, edgeId and sasKey parameters");
-        Console.WriteLine(" eg. init-edgehub --hostname=myhub.azure-devices.net --edgeId=edge01 --sasKey=<edgeDeviceSharedAccesssKey");
-        Console.WriteLine();
+        Console.WriteLine(" requires hostname, edgeId, modId and sasKey parameters");
+        Console.WriteLine(" eg. init-edgehub --hostname=myhub.azure-devices.net --edgeId=edge01 --modId=<$edgeHub|custom> --sasKey=<edgeDeviceSharedAccesssKey");
+        Console.WriteLine("exiting. \n\n");
     }
 }
