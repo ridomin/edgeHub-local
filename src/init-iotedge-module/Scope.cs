@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace init_edgehub
+namespace init_iotedge_module
 {
     public class Scope
     {

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace init_edgehub;
+namespace init_iotedge_module;
 
 public class Sas
 {

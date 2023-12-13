@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace init_edgehub;
+namespace init_iotedge_module;
 
 internal class Program
 {
